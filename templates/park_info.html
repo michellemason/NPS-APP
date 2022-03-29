@@ -1,0 +1,29 @@
+{% extends "base.html" %} 
+
+{% block title %} Home {% endblock title %} 
+
+{% block content %}
+
+{% for result in results %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm" id="park-info">
+            <a href="/state/{{result.states}}/{{result.parkCode}}
+            "><h3>{{result.fullName}}</a>
+            <form method="POST">
+                <button data-id="{{result.parkCode}}" href="/favorites/{{result.parkCode}}" class="fave btn btn-med" type="submit"><small>Add Park to Favorite </small><i class="far fa-heart"></i></button></h3>
+            </form>
+            {% for activity in result.activities %}
+            <p style="color: red">{{activity.name}}</p>
+            {% endfor %}
+            <p>{{result.description}}</p>
+            <img src="{{result.images[0].url}}" width="300px;" height="200px;">
+
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock content %}
+

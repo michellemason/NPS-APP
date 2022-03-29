@@ -1,0 +1,23 @@
+{% extends "base.html" %} 
+
+{% block title %} Home {% endblock title %} 
+
+{% block content %}
+<h1>Hello, {{user.username}}!</h1>
+<div class="container">
+    <div class="row">
+        {% for park in fave_parks %}
+        <div class="col-sm" style="margin-top: 10px;">
+            <h4>{{park}}</h4>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
+
+
+
+{% endblock content %}

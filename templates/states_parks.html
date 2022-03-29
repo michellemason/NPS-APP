@@ -1,0 +1,26 @@
+{% extends "base.html" %} 
+
+{% block title %} Home {% endblock title %} 
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        {% for result in results %}
+        <div class="col-sm" style="margin-top: 10px;">
+            <div class="card image-card" style="width: 18rem;">
+                <img src="{{result.images[0].url}}" width="18rem;" height="200px;" class="card-img-top">
+                <div class="card-body">
+                <center><h5 class="card-title" style=""><a href="/state/{{result.states}}/{{result.parkCode}}">{{result.fullName}}</a></h5></center>
+                <p class="card-text" style="font-size:small">{{result.description}}</p>
+                <i class="fa-regular fa-heart"></i>
+                </div>
+        </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+{% endblock content %}

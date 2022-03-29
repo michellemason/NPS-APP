@@ -1,0 +1,18 @@
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 3px solid;
+    color: #87C09B;;
+  }
+
+.card-description {
+    font-size: small;
+}
+
+  /* 
+  
+  NOTES
+  GREEN COLOR: #87C09B; 
+  
+  */
