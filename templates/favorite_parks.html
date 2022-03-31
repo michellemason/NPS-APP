@@ -4,11 +4,13 @@
 
 {% block content %}
 <h1>Hello, {{user.username}}!</h1>
+
 <div class="container">
     <div class="row">
-        {% for park in fave_parks %}
+        {% for p in faves %}
         <div class="col-sm" style="margin-top: 10px;">
-            <h4>{{park}}</h4>
+            <h4>{{p}}</h4>
+            <a href="/favorites/delete/{{p}}" data-id="{{p}}" action="post" class="btn btn-outline-danger btn-sm" type="submit">Delete Park</a>
         </div>
         {% endfor %}
     </div>

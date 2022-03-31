@@ -188,6 +188,16 @@ def add_park_to_faves(state, park_id):
         flash("Park already in favorites!", 'danger')
         return render_template('park_info.html', results=results)
 
+@app.route('/favorites/delete/<park_id>', methods=["GET", "POST"])
+def delete_fave(park_id):
+    """Delete a park from favorites"""
+
+    fave = FavoritePark.query.filter_by(user_id=g.user.id, park_id=park_id).first()
+    db.session.delete(fave)
+    db.session.commit()
+    flash("Park removed from favorites.", 'success')
+
+    return redirect('/favorites')
 
 
 @app.route("/favorites")
@@ -196,63 +206,28 @@ def show_favorites():
         flash("You need to login to view favorites.", "danger")
         return redirect('/login')
 
-    user_faves = g.user.favorites
-    fave_parks = [p.id for p in user_faves]
+    user_id = g.user.id
+    user = User.query.get_or_404(user_id)
 
-    return render_template('favorite_parks.html', fave_parks=fave_parks)
+    user_faves = user.favorites
+    faves = [p.park_id for p in user_faves]
+
+    # for park in faves:
+    #     res = requests.get(f'{API_BASE_URL}parks?api_key={API_SECRET_KEY}&parkCode={park}')
+    #     res_json = res.json()
+    #     results = res_json['data']
+
+    return render_template('favorite_parks.html', faves=faves, user=user)
 
 
 
 
 
 
-
-# @app.route('/favorite/<park_id>', methods=["GET", "POST"])
-# def add_favorite(park_id):
-#     """Add park to favorite table"""
-#     if not g.user:
-#         flash("Unauthorized access, please login.", 'danger')
-#         return redirect('/')
-
-#     park = Park.query.filter_by(code=park_id).first()
-#     if not park:
-#         res = requests.get(f'{API_BASE_URL}parks?api_key={API_SECRET_KEY}&parkCode={park_id}')
-#         data = res.json()
-#         park = add_park_from_api(data)
-
-#         g.user.favorites.append(park)
-#         db.session.commit()
-#     else:
-#         g.user.favorites.append(park)
-#         db.session.commit()
-
-#     return jsonify(park=park.serialize())
 
 
     
 
-
-
-# @app.route('/users/<username>/new-list', methods=["GET", "POST"])
-# def create_fave_list(username):
-#     if 'username' not in session or username != session['username']:
-#         flash("You are not authorized to accessed this page.", "danger")
-#         return redirect('/')
-#     else:
-#         user = User.query.filter_by(username=username).one()
-#         form = FavoritesListForm()
-#         if form.validate_on_submit():
-#             name = form.name.data
-#             description = form.description.data
-
-#             new_list = FavoritesList(name=name, user_id=user.id)
-#             db.session.add(new_list)
-#             db.session.commit()
-
-#             flash("New Account Created.", "success")
-#             return redirect(f'/users/{username}', name=name, description=description)
-
-#         return render_template("create_favorites_list.html", form=form, user=user)
 
 
 
