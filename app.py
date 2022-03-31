@@ -168,16 +168,17 @@ def add_park_to_faves(state, park_id):
 
     user_id = g.user.id
     user = User.query.get_or_404(user_id)
-
     park = Park.query.get_or_404(park_id)
 
-    if park:
-        res = requests.get(f'{API_BASE_URL}parks?api_key={API_SECRET_KEY}&parkCode={park_id}')
+    fave = FavoritePark.query.filter_by(user_id=user.id, park_id=park.code).first()
 
+    if not fave:
+        res = requests.get(f'{API_BASE_URL}parks?api_key={API_SECRET_KEY}&parkCode={park_id}')
         res_json = res.json()
         results = res_json['data']
 
         add_park = FavoritePark(user_id=user.id, park_id=park.code)
+        
         db.session.add(add_park)
         db.session.commit()
         flash("Park added to favorites!", 'success')
