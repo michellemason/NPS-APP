@@ -1,4 +1,3 @@
-from audioop import add
 from crypt import methods
 from sqlite3 import IntegrityError
 from fetch import fill_all_parks, add_park_from_api
@@ -139,7 +138,7 @@ def delete_user(user_id):
 
 @app.route('/state/<state>')
 def lookup_state(state):
-    """Show a states parks"""
+
     response = requests.get(f'{API_BASE_URL}parks?api_key={API_SECRET_KEY}&stateCode={state}')
 
     res_json = response.json()
@@ -147,9 +146,8 @@ def lookup_state(state):
 
     return render_template('states_parks.html', results=results)
 
-@app.route('/state/<state>/<park_id>', methods=["GET", "POST"])
+@app.route('/state/<state>/<park_id>')
 def park_info(state, park_id):
-    """Show info on specific park"""
     response = requests.get(f'{API_BASE_URL}parks?api_key={API_SECRET_KEY}&stateCode={state}&parkCode={park_id}')
 
     res_json = response.json()
@@ -159,62 +157,48 @@ def park_info(state, park_id):
 
 ################# FAVORITES LIST ROUTES ###############
 
-@app.route('/favorites/<park_id>', methods=["POST"])
-def add_park_to_faves(park_id):
+@app.route('/state/<state>/<park_id>', methods=["POST"])
+def add_park_to_faves(state, park_id):
     """Add park to favorites"""
+
+    response = requests.get(f'{API_BASE_URL}parks?api_key={API_SECRET_KEY}&stateCode={state}&parkCode={park_id}')
+
+    res_json = response.json()
+    results = res_json['data']
+
     user_id = g.user.id
     user = User.query.get_or_404(user_id)
+
     park = Park.query.get_or_404(park_id)
 
-    add_park = FavoritePark(user_id=user.id, park_id=park.code)
-    db.session.add(add_park)
-    db.session.commit()
+    if park:
+        res = requests.get(f'{API_BASE_URL}parks?api_key={API_SECRET_KEY}&parkCode={park_id}')
 
-    flash("Park added to favorites!", "success")
-    return redirect(url_for('park_info'))
+        res_json = res.json()
+        results = res_json['data']
 
+        add_park = FavoritePark(user_id=user.id, park_id=park.code)
+        db.session.add(add_park)
+        db.session.commit()
+        flash("Park added to favorites!", 'success')
+        return render_template('park_info.html', results=results)
 
-
-
-###############
-    # if not g.user:
-    #     flash("Please login to add favorites.", "danger")
-    #     return redirect("/")    
-
-    # park = Park.query.get_or_404(park_id)
-    # if not park:
-    #     response = requests.get(f'{API_BASE_URL}parks?api_key={API_SECRET_KEY}&stateCode={state}&parkCode={park_id}')
-
-    #     data = response.json()
-    #     park = add_park_from_api(data)
-
-    #     g.user.favorites.append(park)
-    #     db.session.commit()
-    # else:
-    #     g.user.favorites.append(park)
-    #     db.session.commit()
-    # return jsonify(park=park.serialize())
-
-###############
-    # user_id = g.user.id
-    # user = User.query.get_or_404(user_id)
-    # park = Park.query.get_or_404(park_id)
-
-    # in_faves = FavoritePark.query.filter_by(user_id=user.id, park_id=park.code)
-
-    # if not in_faves:
-    #     add_park = FavoritePark(user_id=user.id, park_id=park.code)
-    #     db.session.add(add_park)
-    #     db.session.commit()
-    #     flash(f"{park.name} added to favorites!", "success")
-    #     return redirect(url_for('park_info'))
-    # else:
-    #     flash("Park already in favorites.", "danger")
-    #     return redirect(url_for('park_info'))
+    else:
+        flash("Park already in favorites!", 'danger')
+        return render_template('park_info.html', results=results)
 
 
 
- 
+@app.route("/favorites")
+def show_favorites():
+    if not g.user:
+        flash("You need to login to view favorites.", "danger")
+        return redirect('/login')
+
+    user_faves = g.user.favorites
+    fave_parks = [p.id for p in user_faves]
+
+    return render_template('favorite_parks.html', fave_parks=fave_parks)
 
 
 
@@ -222,10 +206,54 @@ def add_park_to_faves(park_id):
 
 
 
+# @app.route('/favorite/<park_id>', methods=["GET", "POST"])
+# def add_favorite(park_id):
+#     """Add park to favorite table"""
+#     if not g.user:
+#         flash("Unauthorized access, please login.", 'danger')
+#         return redirect('/')
 
+#     park = Park.query.filter_by(code=park_id).first()
+#     if not park:
+#         res = requests.get(f'{API_BASE_URL}parks?api_key={API_SECRET_KEY}&parkCode={park_id}')
+#         data = res.json()
+#         park = add_park_from_api(data)
+
+#         g.user.favorites.append(park)
+#         db.session.commit()
+#     else:
+#         g.user.favorites.append(park)
+#         db.session.commit()
+
+#     return jsonify(park=park.serialize())
 
 
     
+
+
+
+# @app.route('/users/<username>/new-list', methods=["GET", "POST"])
+# def create_fave_list(username):
+#     if 'username' not in session or username != session['username']:
+#         flash("You are not authorized to accessed this page.", "danger")
+#         return redirect('/')
+#     else:
+#         user = User.query.filter_by(username=username).one()
+#         form = FavoritesListForm()
+#         if form.validate_on_submit():
+#             name = form.name.data
+#             description = form.description.data
+
+#             new_list = FavoritesList(name=name, user_id=user.id)
+#             db.session.add(new_list)
+#             db.session.commit()
+
+#             flash("New Account Created.", "success")
+#             return redirect(f'/users/{username}', name=name, description=description)
+
+#         return render_template("create_favorites_list.html", form=form, user=user)
+
+
 
 
 
