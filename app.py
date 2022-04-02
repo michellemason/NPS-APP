@@ -5,7 +5,7 @@ from flask import Flask, render_template, g, redirect, session, request, flash, 
 from flask_wtf import FlaskForm
 from flask_debugtoolbar import DebugToolbarExtension
 from models import connect_db, db, User, Park, FavoritePark
-from forms import CreateUserForm, LoginForm
+from forms import CreateUserForm, LoginForm, EditUser
 from secret import API_SECRET_KEY
 import os
 import requests
@@ -98,7 +98,7 @@ def login():
         if user:
             do_login(user)
             flash(f'Hello, {user.username}!', 'success')
-            return redirect(f'/users/{user.id}')
+            return redirect('/home')
 
         flash("Username/Password incorrect.", "danger")
     return render_template('login.html', form=form)
@@ -108,6 +108,27 @@ def logout():
     do_logout()
     flash("See you next time!", 'success')
     return redirect('/')
+
+
+@app.route('/users/<int:user_id>/edit', methods=["GET", "POST"])
+def edit_user(user_id):
+    """Edit user profile info"""
+
+    if not g.user:
+        flash("Unauthorized acces.", 'danger')
+        return redirect('/')
+
+    user = User.query.get(user_id)
+    form = EditUser(obj=user)
+    if form.validate_on_submit():
+        user.username = form.username.data
+        user.email = form.email.data
+        db.session.commit()
+        flash(f"Account successfully updated!", 'success')
+        return redirect(f"/users/{user.id}")
+
+    return render_template('users_edit.html', form=form, user=user)
+
 
 @app.route('/users/<int:user_id>')
 def users_page(user_id):
@@ -202,22 +223,25 @@ def delete_fave(park_id):
 
 @app.route("/favorites")
 def show_favorites():
+    """View all parks in users favorites"""
     if not g.user:
         flash("You need to login to view favorites.", "danger")
         return redirect('/login')
 
     user_id = g.user.id
     user = User.query.get_or_404(user_id)
-
     user_faves = user.favorites
+
     faves = [p.park_id for p in user_faves]
+    results = []
 
-    # for park in faves:
-    #     res = requests.get(f'{API_BASE_URL}parks?api_key={API_SECRET_KEY}&parkCode={park}')
-    #     res_json = res.json()
-    #     results = res_json['data']
+    for park in faves:
+        res = requests.get(f'{API_BASE_URL}parks?api_key={API_SECRET_KEY}&parkCode={park}')
+        res_json = res.json()
+        results.append(res_json['data'][0])
+    print(results)
 
-    return render_template('favorite_parks.html', faves=faves, user=user)
+    return render_template('favorite_parks.html', faves=faves, user=user, results=results)
 
 
 

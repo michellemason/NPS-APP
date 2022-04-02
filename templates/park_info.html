@@ -1,6 +1,6 @@
 {% extends "base.html" %} 
 
-{% block title %} Home {% endblock title %} 
+{% block title %} Park Info {% endblock title %} 
 
 {% block content %}
 
@@ -9,16 +9,40 @@
 <div class="container">
     <div class="row">
         <div class="col-sm" id="park-info">
-            <a href="/state/{{result.states}}/{{result.parkCode}}
-            "><h3>{{result.fullName}}</a>
+            <a href="{{result.url}}"><h3>{{result.fullName}}</a>
             <form method="POST">
-                <button data-id="{{result.parkCode}}" href="/state/{{result.states}}/{{result.parkCode}}" class="fave btn btn-med" type="submit"><small>Add Park to Favorite </small><i class="far fa-heart"></i></button></h3>
+                <button data-id="{{result.parkCode}}" href="/state/{{result.states}}/{{result.parkCode}}" class="fave btn btn-sm btn-success" type="submit"><small>Add Park to Favorite </small><i class="far fa-heart"></i></button></h3>
             </form>
-            {% for activity in result.activities %}
-            <p style="color: red">{{activity.name}}</p>
-            {% endfor %}
+
+            <a href="/state/{{result.states}}" class="btn btn-secondary btn-sm" type="submit">Back to results</a>
+<!-- 
+            <div class="row">
+                {% for activity in result.activities %}
+                <div class="col-md acts">
+                    <p style="color: red">{{activity.name}}</p>
+                </div>
+                {% endfor %}
+            </div> -->
+
+            <ul id="act-list" class="ul list edit">
+                {% for activity in result.activities %}
+                <li style="display:inline">{{activity.name}} | </li>
+                {% endfor %}
+            </ul>
+
             <p>{{result.description}}</p>
-            <img src="{{result.images[0].url}}" width="300px;" height="200px;">
+
+            {% for img in result.images %}
+            <img src="{{img.url}}" width="300px;" height="200px;">
+            <p>{{img.title}}</p>
+            {% endfor %}
+
+            {% for add in result.addresses%}
+            <p>{{add.type}} Address: {{add.line1}}, {{add.city}}, {{add.stateCode}} {{add.postalCode}}</p>
+            {% endfor %}
+
+            <p class="weather">{{result.weatherInfo}}</p>
+
 
         </div>
     </div>

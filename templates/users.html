@@ -5,9 +5,9 @@
 {% block content %}
 
 <h1 class="mb-4">Welcome back, {{user.username}}!</h1>
-<form>
-<button class="btn btn-success" href="/home">Create a Favorites List</button>
-</form>
-
+<h6 class="user-info">Username: {{user.username}}</h6>
+<h6 class="user-info">Email: {{user.email}}</h6>
+<a href="/favorites" data-id="{{user.id}}" class="btn btn-success btn-md" type="submit">Go to favorites</a>
+<a href="/users/{{user.id}}/edit" data-id="{{user.id}}" class="btn btn-secondary btn-md" type="submit">Edit Info</a>
 
 {% endblock content %}

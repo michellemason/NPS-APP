@@ -4,6 +4,37 @@
 
 {% block content %}
 <h1>Hello, {{user.username}}!</h1>
+<h4>Your Favorite Parks</h4>
+
+
+<div class="container">
+    <div class="row">
+        {% for result in results %}
+            {% if result %}
+        <div class="col-sm" style="margin-top: 10px;">
+            <div class="card image-card" style="width: 18rem;">
+                <img src="{{result.images[0].url}}" width="18rem;" height="200px;" class="card-img-top">
+                    <div class="card-body">
+                        <center><h5 class="card-title"><a href="/state/{{result.states}}/{{result.parkCode}}">{{result.fullName}}</a></h5></center>
+                        <center><a href="/favorites/delete/{{result.parkCode}}" data-id="{{p}}" action="post" class="btn btn-outline-danger btn-sm" type="submit">Remove From Favorites</a></center>
+                    </div>
+            </div>
+        </div>
+        {% else %}
+        <h4>You have no favorites!</h4>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock content %}
+
+
+
+<!-- {% if faves is none %} 
+<p>You have no parks on your favorites list.</p>
+{% else %}
 
 <div class="container">
     <div class="row">
@@ -15,11 +46,5 @@
         {% endfor %}
     </div>
 </div>
+{% endif %} -->
 
-
-
-
-
-
-
-{% endblock content %}
