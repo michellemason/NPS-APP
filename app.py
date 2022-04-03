@@ -1,6 +1,5 @@
 from crypt import methods
 from sqlite3 import IntegrityError
-from fetch import fill_all_parks, add_park_from_api
 from flask import Flask, render_template, g, redirect, session, request, flash, jsonify, make_response, url_for
 from flask_wtf import FlaskForm
 from flask_debugtoolbar import DebugToolbarExtension
@@ -59,7 +58,7 @@ def homepage():
     """Actual omepage"""
     popular = ['grsm', 'zion', 'yell', 'grca', 'romo', 'acad']
     results = []
-    
+
     for pop in popular:
         response = requests.get(f'{API_BASE_URL}parks?api_key={API_SECRET_KEY}&parkCode={pop}')
         res_json = response.json()
