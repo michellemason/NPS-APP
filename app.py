@@ -47,6 +47,8 @@ def do_logout():
     if CURR_USER_KEY in session:
         del session[CURR_USER_KEY]
 
+############ BASIC ROUTES #############
+
 @app.route('/')
 def root():
     """Basic homepage reroute"""
@@ -55,17 +57,24 @@ def root():
 @app.route('/home')
 def homepage():
     """Actual omepage"""
-    return render_template('home.html')
+    popular = ['grsm', 'zion', 'yell', 'grca', 'romo', 'acad']
+    results = []
+    
+    for pop in popular:
+        response = requests.get(f'{API_BASE_URL}parks?api_key={API_SECRET_KEY}&parkCode={pop}')
+        res_json = response.json()
+        results.append(res_json['data'][0])
+
+    return render_template('home.html', results=results)
 
 
 ############# USER ROUTES #############
 
 @app.route('/register', methods=["GET", "POST"])
 def register_user():
-
+    """Register a new user"""
     if CURR_USER_KEY in session:
         return redirect('/')
-
     form = CreateUserForm()
     if form.validate_on_submit():
         try:
@@ -88,7 +97,6 @@ def register_user():
 @app.route('/login', methods=["GET", "POST"])
 def login():
     """handle loging a user in"""
-    
     form = LoginForm()
     if form.validate_on_submit():
         username = form.username.data
@@ -105,6 +113,7 @@ def login():
 
 @app.route('/logout')
 def logout():
+    """Handle logging a user out"""
     do_logout()
     flash("See you next time!", 'success')
     return redirect('/')
@@ -113,7 +122,6 @@ def logout():
 @app.route('/users/<int:user_id>/edit', methods=["GET", "POST"])
 def edit_user(user_id):
     """Edit user profile info"""
-
     if not g.user:
         flash("Unauthorized acces.", 'danger')
         return redirect('/')
@@ -132,11 +140,10 @@ def edit_user(user_id):
 
 @app.route('/users/<int:user_id>')
 def users_page(user_id):
-    """User profile"""
-
+    """Show user profile"""
     user = User.query.get_or_404(user_id)
-    ### ADD FAVORITES HERE LATER
     return render_template('users.html', user=user)
+
 
 @app.route('/users/<int:user_id>/delete', methods=["POST"])
 def delete_user(user_id):
@@ -146,20 +153,22 @@ def delete_user(user_id):
         return redirect('/')
     
     user = User.query.get_or_404(user_id)
-
+    faves = FavoritePark.query.filter_by(user_id=user.id).all()
+    for fave in faves:
+        db.session.delete(fave)
     db.session.delete(user)
+  
     db.session.commit()
     session.pop(CURR_USER_KEY)
     flash(f"{g.user.username} has been deleted.", 'secondary')
     return redirect('/')
 
-#### ADD EDIT AND DELETE USER ACTIONS
 
 ############### PARK ROUTES ###############
 
 @app.route('/state/<state>')
 def lookup_state(state):
-
+    """Show parks based on specific state(s)"""
     response = requests.get(f'{API_BASE_URL}parks?api_key={API_SECRET_KEY}&stateCode={state}')
 
     res_json = response.json()
@@ -169,6 +178,7 @@ def lookup_state(state):
 
 @app.route('/state/<state>/<park_id>')
 def park_info(state, park_id):
+    """Show specific park information"""
     response = requests.get(f'{API_BASE_URL}parks?api_key={API_SECRET_KEY}&stateCode={state}&parkCode={park_id}')
 
     res_json = response.json()
@@ -180,8 +190,7 @@ def park_info(state, park_id):
 
 @app.route('/state/<state>/<park_id>', methods=["POST"])
 def add_park_to_faves(state, park_id):
-    """Add park to favorites"""
-
+    """Add park to user favorites"""
     response = requests.get(f'{API_BASE_URL}parks?api_key={API_SECRET_KEY}&stateCode={state}&parkCode={park_id}')
 
     res_json = response.json()
@@ -211,8 +220,7 @@ def add_park_to_faves(state, park_id):
 
 @app.route('/favorites/delete/<park_id>', methods=["GET", "POST"])
 def delete_fave(park_id):
-    """Delete a park from favorites"""
-
+    """Delete a park from user favorites"""
     fave = FavoritePark.query.filter_by(user_id=g.user.id, park_id=park_id).first()
     db.session.delete(fave)
     db.session.commit()
@@ -239,7 +247,6 @@ def show_favorites():
         res = requests.get(f'{API_BASE_URL}parks?api_key={API_SECRET_KEY}&parkCode={park}')
         res_json = res.json()
         results.append(res_json['data'][0])
-    print(results)
 
     return render_template('favorite_parks.html', faves=faves, user=user, results=results)
 

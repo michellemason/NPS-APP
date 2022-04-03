@@ -7,7 +7,10 @@
 <h1 class="mb-4">Welcome back, {{user.username}}!</h1>
 <h6 class="user-info">Username: {{user.username}}</h6>
 <h6 class="user-info">Email: {{user.email}}</h6>
-<a href="/favorites" data-id="{{user.id}}" class="btn btn-success btn-md" type="submit">Go to favorites</a>
-<a href="/users/{{user.id}}/edit" data-id="{{user.id}}" class="btn btn-secondary btn-md" type="submit">Edit Info</a>
+<form>
+<button formaction="/favorites" formmethod="GET" data-id="{{user.id}}" class="btn btn-success btn-md" type="submit">Go to favorites</button>
+<button formaction="/users/{{user.id}}/edit" formmethod="GET" data-id="{{user.id}}" class="btn btn-secondary btn-md" type="submit">Edit Info</button>
+<button formaction="/users/{{user.id}}/delete" formmethod="POST" data-id="{{user.id}}" class="btn btn-danger btn-md" type="submit">Delete User</button>
+</form>
 
 {% endblock content %}

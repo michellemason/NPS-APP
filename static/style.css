@@ -2,7 +2,7 @@ hr {
     margin-top: 1rem;
     margin-bottom: 1rem;
     border: 0;
-    border-top: 3px solid;
+    border-top: 5px solid;
     color: #87C09B;;
   }
 
@@ -10,13 +10,26 @@ hr {
     font-size: small;
 }
 
-ul.ul {
-  color: #87C09B;
+a {
+  color: #61806c;
+  text-decoration: none;
 }
 
-#act-list {
-  font-size: 60px;
-}
+
+/* 
+html, body {
+	background: url('https://wallpapercave.com/wp/wp4738978.jpg') no-repeat center center fixed;
+	background-size: cover;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-clip: border-box;
+	height: 100%;
+} */
+
+
+
+
 
   /* 
   
