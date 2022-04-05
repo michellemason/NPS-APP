@@ -186,7 +186,11 @@ def park_info(state, park_id):
     res_json = response.json()
     results = res_json['data']
 
-    return render_template('park_info.html', results=results)
+    alert_res = requests.get(f'{API_BASE_URL}alerts?api_key={API_SECRET_KEY}&parkCode={park_id}')
+    alert_res_json = alert_res.json()
+    alerts = alert_res_json['data']
+
+    return render_template('park_info.html', results=results, alerts=alerts)
 
 ################# FAVORITES LIST ROUTES ###############
 
