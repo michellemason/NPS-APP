@@ -2,6 +2,7 @@ from crypt import methods
 from sqlite3 import IntegrityError
 from flask import Flask, render_template, g, redirect, session, request, flash, jsonify, make_response, url_for
 from flask_wtf import FlaskForm
+from helpers import random_quote
 from flask_debugtoolbar import DebugToolbarExtension
 from models import connect_db, db, User, Park, FavoritePark
 from forms import CreateUserForm, LoginForm, EditUser
@@ -173,7 +174,9 @@ def lookup_state(state):
     res_json = response.json()
     results = res_json['data']
 
-    return render_template('states_parks.html', results=results)
+    rand = random_quote()
+
+    return render_template('states_parks.html', results=results, rand=rand)
 
 @app.route('/state/<state>/<park_id>')
 def park_info(state, park_id):

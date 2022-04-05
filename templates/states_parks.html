@@ -3,7 +3,7 @@
 {% block title %} Home {% endblock title %} 
 
 {% block content %}
-
+<h2 style="font-family: 'Public Sans'; font-size: 18px; text-align: center;">{{rand}}</h2>
 <div class="container">
     <div class="row">
         {% for result in results %}
@@ -11,8 +11,8 @@
             <div class="card image-card" style="width: 18rem;">
                 <img src="{{result.images[0].url}}" width="18rem;" height="200px;" class="card-img-top">
                 <div class="card-body">
-                <center><h5 class="card-title"><a href="/state/{{result.states}}/{{result.parkCode}}">{{result.fullName}}</a></h5></center>
-                <p class="card-text d-block text-truncate" style="font-size:small">{{result.description}}</p>
+                <center><h5 class="card-title" style="font-size: 14px; font-family: 'Public Sans';"><a href="/state/{{result.states}}/{{result.parkCode}}">{{result.fullName}}</a></h5></center>
+                <p class="card-text d-block text-truncate" style="font-size:small; font-family: 'Public Sans';">{{result.description}}</p>
                 </div>
         </div>
         </div>

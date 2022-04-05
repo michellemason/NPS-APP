@@ -3,8 +3,8 @@
 {% block title %} Home {% endblock title %} 
 
 {% block content %}
-<h1>Hello, {{user.username}}!</h1>
-<h4>Your Favorite Parks</h4>
+<h1 style="font-family: 'Public Sans'; text-align: center;">Hello, {{user.username}}!</h1>
+<h1 style="font-family: 'Reenie Beanie'; text-align: center;">Your Favorite Parks <i class="fa-solid fa-heart"></i></h1>
 
 
 <div class="container">
@@ -15,8 +15,8 @@
             <div class="card image-card" style="width: 18rem;">
                 <img src="{{result.images[0].url}}" width="18rem;" height="200px;" class="card-img-top">
                     <div class="card-body">
-                        <center><h5 class="card-title"><a href="/state/{{result.states}}/{{result.parkCode}}">{{result.fullName}}</a></h5></center>
-                        <center><a href="/favorites/delete/{{result.parkCode}}" data-id="{{p}}" action="post" class="btn btn-outline-danger btn-sm" type="submit">Remove From Favorites</a></center>
+                        <center><h5 class="card-title" style="font-size: 15px; font-family: 'Public Sans';"><a href="/state/{{result.states}}/{{result.parkCode}}">{{result.fullName}}</a></h5></center>
+                        <center><a href="/favorites/delete/{{result.parkCode}}" data-id="{{p}}" action="post" class="btn btn-outline-danger btn-sm" type="submit" style="font-size: 12px; font-family: 'Public Sans';">Remove From Favorites</a></center>
                     </div>
             </div>
         </div>

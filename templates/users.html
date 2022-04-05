@@ -3,14 +3,17 @@
 {% block title %} {{user.username}} Home {% endblock title %} 
 
 {% block content %}
-
-<h1 class="mb-4">Welcome back, {{user.username}}!</h1>
-<h6 class="user-info">Username: {{user.username}}</h6>
-<h6 class="user-info">Email: {{user.email}}</h6>
+<div style="font-family: 'Public Sans';">
+<h1 class="mb-4" style="text-align: center;">Welcome back, {{user.username}}!</h1>
+<p style="text-align: center;"><img src="/static/hiker.jpg" style="justify-content: center; height: 50vh; border-radius: 10%;"></p>
+<h3 class="d-flex justify-content-center" style="font-family: 'Reenie Beanie'; font-size: 42px;">User Details</h3>
+<h4 class="user-info">Username: {{user.username}}</h4>
+<h4 class="user-info">Email: {{user.email}}</h4>
 <form>
 <button formaction="/favorites" formmethod="GET" data-id="{{user.id}}" class="btn btn-success btn-md" type="submit">Go to favorites</button>
 <button formaction="/users/{{user.id}}/edit" formmethod="GET" data-id="{{user.id}}" class="btn btn-secondary btn-md" type="submit">Edit Info</button>
 <button formaction="/users/{{user.id}}/delete" formmethod="POST" data-id="{{user.id}}" class="btn btn-danger btn-md" type="submit">Delete User</button>
 </form>
+</div>
 
 {% endblock content %}

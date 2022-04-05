@@ -9,39 +9,60 @@
 <div class="container">
     <div class="row">
         <div class="col-sm" id="park-info">
-            <a href="{{result.url}}"><h3>{{result.fullName}}</a>
+            <a href="{{result.url}}"><h3 style="font-size: 32px; text-align: center; font-family: 'Public Sans';">{{result.fullName}}</a>
             <form method="POST">
-                <button data-id="{{result.parkCode}}" href="/state/{{result.states}}/{{result.parkCode}}" class="fave btn btn-sm btn-success" type="submit"><small>Add Park to Favorite </small><i class="far fa-heart"></i></button></h3>
+                <button data-id="{{result.parkCode}}" href="/state/{{result.states}}/{{result.parkCode}}" class="fave btn btn-sm btn-success" style="font-family: 'Public Sans'; font-size: 14px;" type="submit">Add Park to Favorites <i class="far fa-heart"></i></button></h3>
+                <p style="text-align: center;"><a href="/state/{{result.states}}" style="font-family: 'Public Sans';">Back to results</a></p>
             </form>
 
-            <a href="/state/{{result.states}}" class="btn btn-secondary btn-sm" type="submit">Back to results</a>
-<!-- 
-            <div class="row">
-                {% for activity in result.activities %}
-                <div class="col-md acts">
-                    <p style="color: red">{{activity.name}}</p>
-                </div>
-                {% endfor %}
-            </div> -->
-
-            <ul id="act-list" class="ul list edit">
+            <h1 style="font-family: 'Reenie Beanie'; text-align: center;">Things To Do</h1>
+            <ul id="act-list" class="ul list edit" style="text-align: center; font-family: 'Public Sans';">
                 {% for activity in result.activities %}
                 <li style="display:inline">{{activity.name}} | </li>
                 {% endfor %}
             </ul>
+            <hr>
+            <h1 style="font-family: 'Reenie Beanie'; text-align: center;">All About {{result.fullName}}</h1>
+            <p style="font-family: 'Public Sans'; text-align: center;">{{result.description}}</p>
+            <hr>
 
-            <p>{{result.description}}</p>
+            <h1 style="font-family: 'Reenie Beanie'; text-align: center;">Images <i class="fa-solid fa-camera-retro"></i></h1>
 
-            {% for img in result.images %}
-            <img src="{{img.url}}" width="300px;" height="200px;">
-            <p>{{img.title}}</p>
-            {% endfor %}
+            <div class="row" style="font-family: 'Public Sans';">
+                <div class="col">
+              <div class="text-center">
+                <img src="{{result.images[0].url}}" class="img-thumbnail" style="">
+                <div class="caption">
+                    <p>{{result.images[0].title}}</p>
+                </div>
+              </div>
+                </div>
+                <div class="col">
+              <div class="text-center">
+                <img src="{{result.images[1].url}}" class="img-thumbnail" style="">
+                <div class="caption">
+                    <p>{{result.images[1].title}}</p>
+                </div>
+              </div>
+              </div>
+              <div class="col">
+              <div class="text-center">
+                <img src="{{result.images[2].url}}" class="img-thumbnail" style="">
+                <div class="caption">
+                    <p>{{result.images[2].title}}</p>
+                </div>
+              </div>
+              </div>
+              </div>
 
+              <hr>
+              <h1 style="font-family: 'Reenie Beanie'; text-align: center;">Where to Get Lost</h1>
             {% for add in result.addresses%}
-            <p>{{add.type}} Address: {{add.line1}}, {{add.city}}, {{add.stateCode}} {{add.postalCode}}</p>
+            <p style="font-family: 'Public Sans'; text-align: center;">{{add.type}} Address: {{add.line1}}, {{add.city}}, {{add.stateCode}} {{add.postalCode}}</p>
             {% endfor %}
-
-            <p class="weather">{{result.weatherInfo}}</p>
+              <hr>
+              <h1 style="font-family: 'Reenie Beanie'; text-align: center;">Prepare for the Journey <i class="fa-solid fa-cloud-sun"></i></h1>
+            <p style="font-family: 'Public Sans'; text-align: center;">{{result.weatherInfo}}</p>
 
 
         </div>

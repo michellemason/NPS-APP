@@ -1,9 +1,10 @@
+
 hr {
     margin-top: 1rem;
     margin-bottom: 1rem;
     border: 0;
     border-top: 5px solid;
-    color: #87C09B;;
+    color: #254D19;
   }
 
 .card-description {
@@ -11,9 +12,16 @@ hr {
 }
 
 a {
-  color: #61806c;
+  color: #254D19;
   text-decoration: none;
 }
+
+a:hover {
+  color: #40822c;
+  text-decoration: none;
+}
+
+
 
 
 /* 
