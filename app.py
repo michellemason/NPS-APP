@@ -249,31 +249,4 @@ def show_favorites():
 
     return render_template('favorite_parks.html', faves=faves, user=user, results=results)
 
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-######## TESTING ########
-
-API_BASE_URL = 'https://developer.nps.gov/api/v1/'
-
-@app.route('/testing')
-def test():
-
-    response = requests.get(f"{API_BASE_URL}parks?limit=500&api_key={API_SECRET_KEY}")
-
-    res_json = response.json()
-    results = res_json['data']
-
-    return render_template('testing.html', results=results)
   
