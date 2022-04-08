@@ -63,16 +63,20 @@
               <hr>
               <h1 style="font-family: 'Reenie Beanie'; text-align: center;">Prepare for the Journey <i class="fa-solid fa-cloud-sun"></i></h1>
             <p style="font-family: 'Public Sans'; text-align: center;">{{result.weatherInfo}}</p>
-
             <hr>
             <h1 style="font-family: 'Reenie Beanie'; text-align: center;">Current Important Alerts</h1>
+            {% if alerts %}
             <div style="background-color: rgb(255,235,153, .5); border-radius: 5%;">
-            {% for alert in alerts %}
-            <h5 style="font-family: 'Public Sans'; text-align: center;">{{alert.category}}: {{alert.title}}</h5>
-            <p style="font-family: 'Public Sans'; text-align: center;">{{alert.description}}</p>
+              {% for alert in alerts %}
+             <h5 style="font-family: 'Public Sans'; text-align: center;">{{alert.category}}: {{alert.title}}</h5>
+              <p style="font-family: 'Public Sans'; text-align: center;">{{alert.description}}</p>
 
-            {% endfor %}
+              {% endfor %}
+              {% else %}
+              <p style="font-family: 'Public Sans'; text-align: center;">There are no alerts for this park.</p>
+              {% endif %}
           </div>
+
 
         </div>
     </div>

@@ -6,9 +6,9 @@ Sign In
 
 {% block content %}
 
-<h1>Sign In</h1>
+<h1 style="text-align: center; font-family: 'Public Sans';">Sign In</h1>
 
-<div class="container row">
+<div class="container row" style="font-family: 'Public Sans';">
     <form method="POST">
         {{form.hidden_tag()}}
         {% for field in form if field.widget.input_type != 'hidden' %}

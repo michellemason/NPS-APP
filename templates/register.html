@@ -6,9 +6,9 @@ Register New User
 
 {% block content %}
 
-<h1>Create An Account</h1>
+<h1 style="text-align: center; font-family: 'Public Sans';">Create An Account</h1>
 
-<div class="container row">
+<div class="container row" style="font-family: 'Public Sans';">
     <form method="POST">
         {{form.hidden_tag()}}
         {% for field in form if field.widget.input_type != 'hidden' %}
