@@ -4,6 +4,8 @@ My first Capstone project for Springboard's Full-Stack Software Engineering Care
 
 View this app deployed on [Heroku - Park Ranger](https://park-ranger-mm.herokuapp.com/home)
 
+---
+
 ### **Tools Used**
 
 The [National Park Service API](https://www.nps.gov/subjects/developer/api-documentation.htm) was used to make this application. Information on parks all came from this API. 
@@ -17,11 +19,15 @@ Other Tools
 - Flask Bcrypt
 - Flask WTForms
 
+---
+
 ### **User Flow**
 
 Without registering, users will be able to browse parks via searching by state or by most popular parks in 2021. Users will be able to view all park information on specific park pages and learn about each park.
 
 After registering, users accounts will be saved to the database and now users will have the ability to add parks to a favorites list. They will be able to continue to browse parks and save their favorites to their account, which they can return to and view at a later time. Users will also be able to delete parks from their favorites list, update their information, and delete their accounts if they so choose.
+
+---
 
 ### **Using the App Locally (python3 and PostgreSQL required)**
 
