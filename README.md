@@ -2,6 +2,8 @@
 
 My first Capstone project for Springboard's Full-Stack Software Engineering Career Track program.
 
+This application serves as a tool for providing information on all national parks, monuments, and other historical sites in the United States and it's territories.
+
 View this app deployed on [Heroku - Park Ranger](https://park-ranger-mm.herokuapp.com/home)
 
 ---
@@ -42,7 +44,7 @@ Next, in the terminal, type the following:
 2. Use that virtual environment by typing `source venv/bin/activate`
 3. Install the required dependencies using `pip install -r requirements.txt`
 4. Create the local database in PostgreSQL with `createdb NPS_db`
-5. Run the __fetch.py__ file to seed the parks table in the database `python3 fetch.py`. This may take a few minutes.
+5. Run the __fetch.py__ file to seed the parks table in the database `python3 fetch.py` - this may take a few minutes
 6. Finally, execute the app in the browser with `flask run`
 
 Once complete, users will be able to view the app in their browser on their local port. All functionality will be available to them upon registering for a new account. 
