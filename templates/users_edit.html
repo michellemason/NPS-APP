@@ -4,9 +4,9 @@
 
 {% block content %}
 
-<h1>Edit Info</h1>
+<h1 style="font-family: 'Public Sans';">Edit Info</h1>
 
-<div class="container row">
+<div class="container row" style="font-family: 'Public Sans';">
     <form method="POST">
         {{form.hidden_tag()}}
         {% for field in form if field.widget.input_type != 'hidden' %}
