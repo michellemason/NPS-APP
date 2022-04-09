@@ -197,6 +197,11 @@ def park_info(state, park_id):
 @app.route('/state/<state>/<park_id>', methods=["POST"])
 def add_park_to_faves(state, park_id):
     """Add park to user favorites"""
+
+    if not g.user:
+        flash("Please log in to add to favorites!", 'danger')
+        return redirect('/')
+
     response = requests.get(f'{API_BASE_URL}parks?api_key={API_SECRET_KEY}&stateCode={state}&parkCode={park_id}')
 
     res_json = response.json()
