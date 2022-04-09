@@ -13,6 +13,8 @@ The [National Park Service API](https://www.nps.gov/subjects/developer/api-docum
 Styling was achieved by using [Bootstrap V.5.1](https://getbootstrap.com/docs/5.1/getting-started/introduction/) along with overriding inline-styles. 
 
 Other Tools
+- Python
+- HTML/CSS
 - Flask
 - SQLAlchemy
 - PostgreSQL/SQL
