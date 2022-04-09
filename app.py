@@ -200,7 +200,7 @@ def add_park_to_faves(state, park_id):
 
     if not g.user:
         flash("Please log in to add to favorites!", 'danger')
-        return redirect('/')
+        return redirect('/state/<state>/<park_id>')
 
     response = requests.get(f'{API_BASE_URL}parks?api_key={API_SECRET_KEY}&stateCode={state}&parkCode={park_id}')
 
